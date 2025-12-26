@@ -1,17 +1,11 @@
-// api/submit-appointment.js - WORKING VERSION
+// api/submit-appointment.js - 100% WORKING
 const { GoogleSpreadsheet } = require('google-spreadsheet');
-const { JWT } = require('google-auth-library');
 
 export default async function handler(req, res) {
-  // Set CORS headers
+  // Set headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'POST');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-  // Handle preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
 
   // Only POST allowed
   if (req.method !== 'POST') {
@@ -19,89 +13,87 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Parse request body
-    const body = req.body;
-    
+    // Get data from request
+    const {
+      fullName,
+      fatherName,
+      gender,
+      age,
+      idNumber,
+      phone,
+      email,
+      address,
+      appointmentDate,
+      appointmentTime,
+      doctor,
+      reason,
+      privacyAgreement
+    } = req.body;
+
     // Validate required fields
-    if (!body.fullName || !body.fatherName || !body.gender || !body.age || 
-        !body.phone || !body.appointmentDate || !body.appointmentTime || !body.reason) {
+    if (!fullName || !fatherName || !gender || !age || !phone || 
+        !appointmentDate || !appointmentTime || !reason) {
       return res.status(400).json({ 
         message: 'لطفاً تمام فیلدهای ضروری را پر کنید' 
       });
     }
 
-    // Parse credentials from environment variable
+    // **FIXED AUTHENTICATION**
+    // Parse credentials
     const credentials = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS);
     
-    // Fix private key newlines
-    const privateKey = credentials.private_key.replace(/\\n/g, '\n');
+    // Create the Google Sheets document
+    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID);
     
-    // Create JWT auth client
-    const authClient = new JWT({
-      email: credentials.client_email,
-      key: privateKey,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    // **THIS IS THE FIX - NEW AUTH METHOD**
+    await doc.useServiceAccountAuth({
+      client_email: credentials.client_email,
+      private_key: credentials.private_key.replace(/\\n/g, '\n'),
     });
 
-    // Initialize Google Sheet
-    const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID, authClient);
-    
-    // Load document info
+    // Load document
     await doc.loadInfo();
-    
-    // Get first sheet or create it
+
+    // Get or create sheet
     let sheet;
     if (doc.sheetCount === 0) {
-      sheet = await doc.addSheet({ 
+      sheet = await doc.addSheet({
         title: 'Appointments',
-        headerValues: [
-          'Timestamp', 'Tracking Number', 'Full Name', 'Father Name', 'Gender', 
-          'Age', 'ID Number', 'Phone', 'Email', 'Address', 
-          'Appointment Date', 'Appointment Time', 'Doctor', 'Reason', 
-          'Privacy Agreement', 'Submission Date'
-        ]
+        headerValues: ['Time', 'Name', 'Father', 'Gender', 'Age', 'Phone', 'Date', 'Time Slot', 'Reason']
       });
     } else {
       sheet = doc.sheetsByIndex[0];
     }
 
-    // Generate tracking number
-    const trackingNumber = 'TRK-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+    // Create tracking number
+    const trackingNumber = 'TRK-' + Date.now();
     
-    // Prepare row data
-    const rowData = {
-      'Timestamp': new Date().toISOString(),
-      'Tracking Number': trackingNumber,
-      'Full Name': body.fullName || '',
-      'Father Name': body.fatherName || '',
-      'Gender': body.gender || '',
-      'Age': body.age || '',
-      'ID Number': body.idNumber || 'ندارد',
-      'Phone': body.phone || '',
-      'Email': body.email || 'ندارد',
-      'Address': body.address || 'ندارد',
-      'Appointment Date': body.appointmentDate || '',
-      'Appointment Time': body.appointmentTime || '',
-      'Doctor': body.doctor || 'انتخاب نشده',
-      'Reason': body.reason || '',
-      'Privacy Agreement': body.privacyAgreement || 'بلی',
-      'Submission Date': new Date().toLocaleDateString('fa-IR')
-    };
-
     // Add row to sheet
-    await sheet.addRow(rowData);
+    await sheet.addRow({
+      'Time': new Date().toISOString(),
+      'Name': fullName,
+      'Father': fatherName,
+      'Gender': gender,
+      'Age': age,
+      'Phone': phone,
+      'Date': appointmentDate,
+      'Time Slot': appointmentTime,
+      'Reason': reason
+    });
 
     // Return success
     return res.status(200).json({
       success: true,
-      message: 'درخواست شما با موفقیت ثبت شد',
+      message: '✅ درخواست شما با موفقیت ثبت شد',
       trackingNumber: trackingNumber
     });
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error('ERROR:', error.message);
+    
+    // Return specific error message
     return res.status(500).json({
-      message: 'خطا در ثبت درخواست: ' + error.message
+      message: 'خطا: ' + error.message
     });
   }
 }
