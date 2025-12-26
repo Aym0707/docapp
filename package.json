@@ -1,0 +1,18 @@
+{
+  "name": "appointment-booking-system",
+  "version": "1.0.0",
+  "description": "سیستم رزرو وقت ملاقات امن برای کلینیک‌های افغانستان",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve ."
+  },
+  "dependencies": {
+    "google-spreadsheet": "^4.1.1"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "keywords": ["appointment", "booking", "afghanistan", "persian", "medical"],
+  "author": "کلینیک سلامتی کابل",
+  "license": "MIT"
+}

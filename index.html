@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fa-AF" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم رزرو وقت ملاقات - کلینیک سلامتی</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/calendar--v1.png">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-calendar-check"></i>
+                <h1>سیستم رزرو وقت ملاقات</h1>
+            </div>
+            <p class="subtitle">کلینیک سلامتی کابل - برای رزرو وقت ملاقات خود، فرم زیر را پر کنید</p>
+            <div class="current-date">
+                <i class="far fa-calendar-alt"></i>
+                <span id="current-date">جمعه، ۵ جدی ۱۳۰۴</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="form-container">
+                <div class="form-header">
+                    <h2><i class="fas fa-user-plus"></i> فرم ثبت نام بیمار</h2>
+                    <p class="form-description">لطفاً تمام معلومات را به صورت دقیق و درست وارد کنید</p>
+                </div>
+
+                <form id="appointment-form">
+                    <div class="form-section">
+                        <h3><i class="fas fa-id-card"></i> معلومات شخصی</h3>
+                        
+                        <div class="form-group">
+                            <label for="full-name"><i class="fas fa-user"></i> نام کامل <span class="required">*</span></label>
+                            <input type="text" id="full-name" name="full-name" required placeholder="نام و نام خانوادگی خود را وارد کنید">
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="father-name"><i class="fas fa-user-friends"></i> نام پدر <span class="required">*</span></label>
+                                <input type="text" id="father-name" name="father-name" required placeholder="نام پدر خود را وارد کنید">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="gender"><i class="fas fa-venus-mars"></i> جنسیت <span class="required">*</span></label>
+                                <select id="gender" name="gender" required>
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="مرد">مرد</option>
+                                    <option value="زن">زن</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="age"><i class="fas fa-birthday-cake"></i> سن <span class="required">*</span></label>
+                                <input type="number" id="age" name="age" min="1" max="120" required placeholder="مثال: ۲۵">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="id-number"><i class="fas fa-id-card"></i> شماره تذکره</label>
+                                <input type="text" id="id-number" name="id-number" placeholder="شماره تذکره الکترونیکی">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-phone-alt"></i> معلومات تماس</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone"><i class="fas fa-mobile-alt"></i> شماره تماس <span class="required">*</span></label>
+                                <input type="tel" id="phone" name="phone" required placeholder="مثال: ۰۷۹۹۱۲۳۴۵۶">
+                                <small class="hint">شماره تماس باید با ۰۷ شروع شود</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email"><i class="fas fa-envelope"></i> ایمیل (اختیاری)</label>
+                                <input type="email" id="email" name="email" placeholder="example@email.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="address"><i class="fas fa-home"></i> آدرس</label>
+                            <textarea id="address" name="address" rows="2" placeholder="آدرس کامل محل سکونت"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-calendar-day"></i> معلومات ملاقات</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointment-date"><i class="far fa-calendar"></i> تاریخ ملاقات <span class="required">*</span></label>
+                                <input type="date" id="appointment-date" name="appointment-date" required min="2025-12-26">
+                                <small class="hint">تاریخ باید از امروز به بعد باشد</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="appointment-time"><i class="far fa-clock"></i> وقت ترجیحی <span class="required">*</span></label>
+                                <select id="appointment-time" name="appointment-time" required>
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="8:00-9:00">۸:۰۰ تا ۹:۰۰ صبح</option>
+                                    <option value="9:00-10:00">۹:۰۰ تا ۱۰:۰۰ صبح</option>
+                                    <option value="10:00-11:00">۱۰:۰۰ تا ۱۱:۰۰ صبح</option>
+                                    <option value="11:00-12:00">۱۱:۰۰ تا ۱۲:۰۰ قبل از ظهر</option>
+                                    <option value="14:00-15:00">۲:۰۰ تا ۳:۰۰ بعد از ظهر</option>
+                                    <option value="15:00-16:00">۳:۰۰ تا ۴:۰۰ بعد از ظهر</option>
+                                    <option value="16:00-17:00">۴:۰۰ تا ۵:۰۰ بعد از ظهر</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="doctor"><i class="fas fa-user-md"></i> داکتر مورد نظر (اختیاری)</label>
+                            <select id="doctor" name="doctor">
+                                <option value="">انتخاب کنید</option>
+                                <option value="دکتر احمدی">دکتر احمدی (متخصص قلب)</option>
+                                <option value="دکتر کریمی">دکتر کریمی (پزشک عمومی)</option>
+                                <option value="دکتر رحیمی">دکتر رحیمی (متخصص اطفال)</option>
+                                <option value="دکتر محمودی">دکتر محمودی (جراح عمومی)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="reason"><i class="fas fa-stethoscope"></i> دلیل مراجعه <span class="required">*</span></label>
+                            <textarea id="reason" name="reason" required rows="3" placeholder="لطفاً دلیل مراجعه خود را شرح دهید"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-shield-alt"></i> تایید و امنیت</h3>
+                        
+                        <div class="form-group">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="privacy-agreement" name="privacy-agreement" required>
+                                <label for="privacy-agreement">با <a href="#" id="privacy-link">سیاست حفظ حریم خصوصی</a> موافقت می‌کنم و تأیید می‌کنم که معلومات من فقط برای مقاصد درمانی استفاده خواهد شد.</label>
+                            </div>
+                        </div>
+                        
+                        <div class="security-notice">
+                            <i class="fas fa-lock"></i>
+                            <p>تمامی معلومات شما به صورت امن ذخیره خواهد شد و با کسی شریک نخواهد شد. ارتباط با سرور با استفاده از پروتکل HTTPS رمزگذاری شده است.</p>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="submit-btn" class="btn-submit">
+                            <i class="fas fa-paper-plane"></i> ارسال درخواست ملاقات
+                        </button>
+                        <button type="button" id="reset-btn" class="btn-reset">
+                            <i class="fas fa-redo"></i> پاک کردن فرم
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="success-message" class="message success-message" style="display: none;">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>درخواست شما با موفقیت ثبت شد!</h3>
+                    <p>شماره رهگیری شما: <strong id="tracking-number"></strong></p>
+                    <p>جزئیات رزرو به شماره تماس شما ارسال خواهد شد. لطفاً ۱۵ دقیقه قبل از وقت مقرر در کلینیک حاضر باشید.</p>
+                    <button id="new-booking-btn" class="btn-new">رزرو جدید</button>
+                </div>
+                
+                <div id="error-message" class="message error-message" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>خطا در ثبت درخواست</h3>
+                    <p id="error-details">متأسفانه در ثبت درخواست شما مشکلی پیش آمده است. لطفاً دوباره تلاش کنید.</p>
+                    <button id="retry-btn" class="btn-retry">تلاش مجدد</button>
+                </div>
+            </div>
+            
+            <div class="info-sidebar">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> راهنمایی</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> لطفاً تمام فیلدهای ستاره‌دار (*) را پر کنید.</li>
+                        <li><i class="fas fa-check-circle"></i> شماره تماس باید معتبر و فعال باشد.</li>
+                        <li><i class="fas fa-check-circle"></i> پس از ثبت درخواست، شماره رهگیری خود را یادداشت کنید.</li>
+                        <li><i class="fas fa-check-circle"></i> در صورت نیاز به تغییر یا لغو، با شماره رهگیری تماس بگیرید.</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card contact-info">
+                    <h3><i class="fas fa-phone-volume"></i> تماس با کلینیک</h3>
+                    <p><i class="fas fa-phone"></i> تلفن: ۰۲۱۲۲۳۳۴۴۵۵</p>
+                    <p><i class="fas fa-map-marker-alt"></i> آدرس: کابل، کارته‌سخی، کلینیک سلامتی</p>
+                    <p><i class="far fa-clock"></i> ساعت کار: ۸:۰۰ صبح تا ۵:۰۰ بعد از ظهر</p>
+                    <p><i class="far fa-calendar-times"></i> روزهای تعطیل: جمعه</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3><i class="fas fa-shield-alt"></i> امنیت اطلاعات</h3>
+                    <p><i class="fas fa-lock"></i> رمزگذاری SSL برای تمام ارتباطات</p>
+                    <p><i class="fas fa-database"></i> ذخیره‌سازی امن در Google Sheets</p>
+                    <p><i class="fas fa-user-shield"></i> عدم اشتراک‌گذاری اطلاعات با اشخاص ثالث</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© ۱۳۰۴ - سیستم رزرو وقت ملاقات - کلینیک سلامتی کابل</p>
+            <p class="footer-note">این سیستم به تاریخ <span id="footer-date">جمعه ۵ جدی ۱۳۰۴</span> به روزرسانی شده است.</p>
+        </footer>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacy-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-shield-alt"></i> سیاست حفظ حریم خصوصی</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>کلینیک سلامتی کابل متعهد به حفظ حریم خصوصی و امنیت اطلاعات بیماران است.</p>
+                
+                <h3><i class="fas fa-user-secret"></i> جمع‌آوری اطلاعات</h3>
+                <p>ما فقط اطلاعات ضروری برای ارائه خدمات درمانی را جمع‌آوری می‌کنیم.</p>
+                
+                <h3><i class="fas fa-lock"></i> حفاظت از اطلاعات</h3>
+                <p>تمامی اطلاعات شما با استفاده از تکنولوژی‌های امنیتی پیشرفته رمزگذاری و محافظت می‌شوند.</p>
+                
+                <h3><i class="fas fa-share-alt"></i> اشتراک‌گذاری اطلاعات</h3>
+                <p>اطلاعات شما با هیچ شخص یا سازمان ثالثی به جز در موارد الزامی قانونی اشتراک گذاشته نخواهد شد.</p>
+                
+                <h3><i class="fas fa-database"></i> ذخیره‌سازی اطلاعات</h3>
+                <p>اطلاعات شما در سرورهای امن Google Sheets ذخیره می‌شود که از استانداردهای امنیتی بالا برخوردار است.</p>
+                
+                <button class="btn-agree" id="agree-privacy">موافقم و بستن</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
