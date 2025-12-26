@@ -1,14 +1,6 @@
 {
-  "name": "appointment-booking-system",
-  "version": "1.0.0",
-  "description": "سیستم رزرو وقت ملاقات",
-  "scripts": {
-    "start": "serve ."
-  },
+  "name": "appointment-system",
   "dependencies": {
-    "google-spreadsheet": "^3.3.0"
-  },
-  "devDependencies": {
-    "serve": "^14.2.1"
+    "google-spreadsheet": "^4.1.1"
   }
 }
