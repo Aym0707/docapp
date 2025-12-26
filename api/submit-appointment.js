@@ -1,6 +1,5 @@
-// api/submit-appointment.js
-// Secure API endpoint for submitting appointments to Google Sheets
-// Uses environment variables for credentials - SAFE for GitHub
+// api/submit-appointment.js - UPDATED FOR NEW GOOGLE SHEETS API
+// Safe for GitHub - Uses environment variables
 
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 
@@ -22,9 +21,8 @@ export default async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Rate limiting check (basic implementation)
+  // Rate limiting check
   const clientIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  console.log(`Request from IP: ${clientIp}`);
 
   try {
     // Validate required environment variables
@@ -136,16 +134,22 @@ export default async function handler(req, res) {
       });
     }
 
-    // Initialize Google Sheets
+    // Initialize Google Sheets with NEW authentication method
     const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID);
     
     try {
-      await doc.useServiceAccountAuth(credentials);
+      // NEW AUTHENTICATION METHOD (FIXED)
+      await doc.useServiceAccountAuth({
+        client_email: credentials.client_email,
+        private_key: credentials.private_key,
+      });
+      
       await doc.loadInfo();
     } catch (authError) {
       console.error('Google Sheets authentication error:', authError);
       return res.status(500).json({ 
-        message: 'خطا در اتصال به سیستم ذخیره‌سازی. لطفاً بعداً تلاش کنید.' 
+        message: 'خطا در اتصال به سیستم ذخیره‌سازی. لطفاً بعداً تلاش کنید.',
+        debug: process.env.NODE_ENV === 'development' ? authError.message : undefined
       });
     }
 
